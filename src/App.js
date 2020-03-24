@@ -18,6 +18,5 @@ export default function App() {
 const mainStyle = {
 	backgroundColor: colors.primaryColor,
 	color: colors.fontColor,
-	margin: "0 auto",
 	padding: "40px"
 }
