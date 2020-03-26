@@ -1,8 +1,8 @@
 import axios from "axios"
 
 const apiURL = "https://min-api.cryptocompare.com/data/v2/histoday"
-const apiKey =
-	"f813e51d3eed931532320276470666ae78979d36b56c1126c05077ff082b9d47"
+// const apiKey =
+// "f813e51d3eed931532320276470666ae78979d36b56c1126c05077ff082b9d47"
 
 const get = async (year, month = 0) => {
 	const dateNow = new Date()

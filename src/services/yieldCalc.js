@@ -61,7 +61,6 @@ const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 		btcIndex = 1
 		startBtcCount = true
 	} else {
-		// console.log("second if")
 		const foundPrice = searchBtcPrice(
 			btcPriceArray,
 			yearStart,
@@ -81,7 +80,6 @@ const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 				startBtcCount = true
 			}
 			if (startBtcCount) {
-				console.log(btcIndex)
 				btc = btcAmount * btcPriceArray[btcIndex].price
 				btcIndex++
 			}
