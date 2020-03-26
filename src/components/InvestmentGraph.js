@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import {
 	LineChart,
 	XAxis,
@@ -13,7 +13,6 @@ import colors from "../colors"
 
 export default function investmentGraph(props) {
 	const { data } = props
-	// console.log(data)
 	return (
 		<div style={containerStyle}>
 			<ResponsiveContainer
@@ -24,28 +23,28 @@ export default function investmentGraph(props) {
 				<LineChart
 					style={graphStyle}
 					width={730}
-					height={250}
+					height={300}
 					data={data}
 					margin={{ top: 20, right: 35, left: 10, bottom: 5 }}
 				>
-					<CartesianGrid strokeDasharray="3 3" />
+					<CartesianGrid height={300} strokeDasharray="3 3" />
 					<XAxis dataKey="period" />
 					<YAxis />
 					<Tooltip />
 					<Legend />
 					<Line
 						name="Tesouro Direto Pré-fixado"
-						type="natural"
+						type="step"
 						dataKey="tdp"
 						stroke={colors.primaryColor}
-						strokeWidth={5}
+						strokeWidth={3}
 					/>
 					<Line
 						name="Bitcoin"
-						type="natural"
+						type="step"
 						dataKey="btc"
 						stroke={colors.secondColor}
-						strokeWidth={5}
+						strokeWidth={3}
 					/>
 				</LineChart>
 			</ResponsiveContainer>

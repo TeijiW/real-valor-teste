@@ -3,31 +3,54 @@ import colors from "../colors"
 import { Form, Button, InputGroup } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 
-const yearOptions = [1, 2]
-const amountOptions = [2000, 10000]
-
 export default function InvestmentForm(props) {
 	const { register, handleSubmit } = useForm()
 	const { setInvestment, investment } = props
 
 	const onSubmit = data => {
-		const { years, amount } = data
+		const { years, amount, months } = data
 		const yearsInt = parseInt(years)
 		const amountInt = parseInt(amount)
-		setInvestment({ ...investment, years: yearsInt, amount: amountInt })
+		const monthsInt = parseInt(months)
+		setInvestment({
+			...investment,
+			years: yearsInt,
+			amount: amountInt,
+			months: monthsInt
+		})
 	}
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
-			<Form.Group controlId="yearsForm">
+			<Form.Group controlId="dateForm">
 				<Form.Label style={labelStyle}>
-					Há quanto tempo você investiu?
+					Quando você investiu?
 				</Form.Label>
-				<Form.Control ref={register} name="years" size="lg" as="select">
-					{yearOptions.map((year, index) => (
-						<option key={index}>{year} ano(s)</option>
-					))}
-				</Form.Control>
+				<InputGroup>
+					<Form.Control
+						placeholder="Mês"
+						defaultValue={new Date().getMonth() + 1}
+						ref={register}
+						name="months"
+						size="lg"
+						type="number"
+						max="12"
+						min="1"
+					/>
+					<InputGroup.Prepend>
+						<InputGroup.Text>/</InputGroup.Text>
+					</InputGroup.Prepend>
+					<Form.Control
+						placeholder="Ano"
+						defaultValue={new Date().getFullYear()}
+						ref={register}
+						name="years"
+						size="lg"
+						type="number"
+						max={new Date().getFullYear()}
+						min="2010"
+					/>
+				</InputGroup>
 			</Form.Group>
 
 			<Form.Group controlId="amountForm">
@@ -39,15 +62,14 @@ export default function InvestmentForm(props) {
 						<InputGroup.Text>R$</InputGroup.Text>
 					</InputGroup.Prepend>
 					<Form.Control
+						placeholder="Quantia aplicada"
+						defaultValue="1"
 						ref={register}
 						name="amount"
 						size="lg"
-						as="select"
-					>
-						{amountOptions.map((amount, index) => (
-							<option key={index}>{amount}</option>
-						))}
-					</Form.Control>
+						type="number"
+						min="1"
+					/>
 				</InputGroup>
 			</Form.Group>
 			<Button size="lg" style={buttonStyle} type="submit">

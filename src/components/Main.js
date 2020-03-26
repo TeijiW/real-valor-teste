@@ -5,11 +5,24 @@ import InvestmentGraph from "./InvestmentGraph"
 import yieldCalc from "../services/yieldCalc"
 
 const Main = () => {
-	const [investment, setInvestment] = useState({ years: 0, amount: 0 })
+	const [investment, setInvestment] = useState({
+		years: 0,
+		months: 0,
+		amount: 0
+	})
 	const [graphData, setGraphData] = useState([])
 	useEffect(() => {
-		setGraphData(yieldCalc(investment.years, investment.amount))
-	}, [investment.amount, investment.years])
+		const fetchData = async () => {
+			const result = await yieldCalc(
+				investment.years,
+				investment.months,
+				investment.amount
+			)
+
+			setGraphData(result)
+		}
+		fetchData()
+	}, [investment.years, investment.months, investment.amount])
 	return (
 		<Container fluid="md">
 			<h1 style={{ marginBottom: "20px" }}>Bem-vindo a Real Valor!</h1>
