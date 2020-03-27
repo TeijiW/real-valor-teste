@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { Container, Collapse, Spinner, Image } from "react-bootstrap"
+import { Container, Spinner, Image } from "react-bootstrap"
 import InvestmentForm from "./InvestmentForm"
-import InvestmentGraph from "./InvestmentGraph"
+import InvestmentChart from "./InvestmentChart"
 import Footer from "./Footer"
 import yieldCalc from "../services/yieldCalc"
 import colors from "../colors"
@@ -13,32 +13,36 @@ const Main = () => {
 		months: 0,
 		amount: 0
 	})
-	const [graphData, setGraphData] = useState([])
-	const [open, setOpen] = useState(false)
+	const [chartData, setChartData] = useState([])
+	const [showchart, setShowChart] = useState(false)
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (investment.years) setLoading(true)
+			if (investment.years) {
+				setShowChart(false)
+				setLoading(true)
+			}
+
 			const result = await yieldCalc(
 				investment.years,
 				investment.months,
 				investment.amount
 			)
-			setGraphData(result)
+			setChartData(result)
 		}
 		fetchData()
 	}, [investment.years, investment.months, investment.amount])
 
 	useEffect(() => {
-		setOpen(false)
-		if (graphData.length > 1) {
+		setShowChart(false)
+		if (chartData.length > 1) {
 			setTimeout(() => {
 				setLoading(false)
-				setOpen(true)
+				setShowChart(true)
 			}, 1500)
 		}
-	}, [graphData])
+	}, [chartData])
 
 	const renderLoading = () => {
 		return (
@@ -53,6 +57,10 @@ const Main = () => {
 				</Spinner>
 			</>
 		)
+	}
+
+	const renderChart = () => {
+		return <InvestmentChart data={chartData} />
 	}
 
 	return (
@@ -72,11 +80,7 @@ const Main = () => {
 				setInvestment={setInvestment}
 			/>
 			{loading && renderLoading()}
-			<Collapse in={open}>
-				<div>
-					<InvestmentGraph data={graphData} />
-				</div>
-			</Collapse>
+			{showchart && renderChart()}
 			<Footer />
 		</Container>
 	)

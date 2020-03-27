@@ -40,7 +40,7 @@ const renderCustomTooltip = ({ slice }) => {
 	)
 }
 
-export default function investmentGraph(props) {
+export default function investmentChart(props) {
 	const { data } = props
 	let timeInterval = "every month"
 	if (data[0]) {
@@ -55,7 +55,7 @@ export default function investmentGraph(props) {
 			<h2 style={{ marginTop: "60px", marginBottom: "30px" }}>
 				Compare o rendimento no gráfico abaixo!
 			</h2>
-			<div style={graphStyle}>
+			<div style={chartStyle}>
 				<ResponsiveLine
 					data={data}
 					margin={{ top: 20, right: 30, bottom: 50, left: 80 }}
@@ -115,7 +115,7 @@ export default function investmentGraph(props) {
 	)
 }
 
-const graphStyle = {
+const chartStyle = {
 	height: " 500px",
 	color: "black",
 	backgroundColor: "white",
