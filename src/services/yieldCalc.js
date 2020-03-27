@@ -36,14 +36,16 @@ const searchBtcPrice = (btcPriceArray, yearStart, monthStart, amount) => {
 const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 	if (years === 0 || months === 0 || amount === 0) return []
 	const btcPriceArray = await getBtcPriceArray(years, months)
-	const dataArray = []
+	const dataObject = {
+		tdp: [],
+		btc: []
+	}
 	let monthStart = months - 1
 	let cdiCount = amount
 	const dateNow = new Date()
 	const yearNow = dateNow.getFullYear()
 	const monthNow = dateNow.getMonth()
 	const yearStart = years
-
 	// Set btc amount by price that month and year
 	let btc = 0
 	let btcYearStart, btcMonthStart
@@ -83,16 +85,29 @@ const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 				btc = btcAmount * btcPriceArray[btcIndex].price
 				btcIndex++
 			}
-			dataArray.push({
-				period: `${monthCount + 1}/${yearCount.toString().substr(-2)}`,
-				btc: btc.toFixed(2),
-				tdp: cdiCount.toFixed(2)
+			const date = new Date(yearCount, monthCount + 1, 0)
+			dataObject.btc.push({
+				x: date,
+				y: btc.toFixed(2)
+			})
+			dataObject.tdp.push({
+				x: date,
+				y: cdiCount.toFixed(2)
 			})
 			cdiCount += cdiCount * tdpYieldMonth
 		}
 		monthStart = 0
 	}
-
+	const dataArray = [
+		{
+			id: "Tesouro Direto Pré-Fixado",
+			data: dataObject.tdp
+		},
+		{
+			id: "Bitcoin",
+			data: dataObject.btc
+		}
+	]
 	return dataArray
 }
 
