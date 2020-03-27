@@ -11,17 +11,7 @@ export default function InvestmentForm(props) {
 	const renderErrorAlert = () => {
 		if (monthsErr.length) {
 			return (
-				<Alert
-					style={{
-						backgroundColor: "#ec939a",
-						border: "0.5px solid black",
-						fontSize: "12px",
-						alignSelf: "center",
-						display: "inline-block",
-						width: "50%"
-					}}
-					variant="danger"
-				>
+				<Alert style={errorStyle} variant="danger">
 					{monthsErr.map((err, index) => (
 						<div id={index}>
 							{err}
@@ -140,4 +130,14 @@ const buttonStyle = {
 
 const labelStyle = {
 	fontSize: "20px"
+}
+
+const errorStyle = {
+	backgroundColor: "#ec939a",
+	border: "0.5px solid black",
+	fontWeight: "400",
+	fontSize: "14px",
+	alignSelf: "center",
+	display: "inline-block",
+	width: "50%"
 }
