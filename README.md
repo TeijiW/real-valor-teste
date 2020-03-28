@@ -4,12 +4,12 @@
 
 ## Passos para executar a aplicação (em modo de desenvolvimento)
 
-### `git clone https://github.com/TeijiW/real-valor-teste`
+##### `git clone https://github.com/TeijiW/real-valor-teste`
 
-### `cd ./real-valor-teste`
+##### `cd ./real-valor-teste`
 
-### `yarn install` (ou `npm install`)
+##### `yarn install` (ou `npm install`)
 
-### `yarn start` (ou `npm start`)
+##### `yarn start` (ou `npm start`)
 
-### Abra a página http://localhost:3000 para utilizar a aplicação
+##### Abra a página http://localhost:3000 para utilizar a aplicação
