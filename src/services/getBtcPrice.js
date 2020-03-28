@@ -33,19 +33,23 @@ const get = async (year, month = 0) => {
 
 const processData = async (year, month = 0) => {
 	let postProcessData = []
-	const data = await get(year, month)
-	postProcessData = data.map(item => {
-		const date = new Date(item.time * 1000)
-		const year = date.getFullYear()
-		const month = date.getMonth()
-		const price = ((item.high + item.low) / 2).toFixed(2)
-		return {
-			price,
-			year,
-			month
-		}
-	})
-	return postProcessData
+	try {
+		const data = await get(year, month)
+		postProcessData = data.map(item => {
+			const date = new Date(item.time * 1000)
+			const year = date.getFullYear()
+			const month = date.getMonth()
+			const price = ((item.high + item.low) / 2).toFixed(2)
+			return {
+				price,
+				year,
+				month
+			}
+		})
+		return postProcessData
+	} catch (error) {
+		throw error
+	}
 }
 
 export default processData

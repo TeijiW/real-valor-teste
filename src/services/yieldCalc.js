@@ -34,81 +34,90 @@ const searchBtcPrice = (btcPriceArray, yearStart, monthStart, amount) => {
 }
 
 const yieldCalc = async (years = 0, months = 0, amount = 0) => {
-	if (years === 0 || months === 0 || amount === 0) return []
-	const btcPriceArray = await getBtcPriceArray(years, months)
-	const dataObject = {
-		tdp: [],
-		btc: []
-	}
-	let monthStart = months - 1
-	let cdiCount = amount
-	const dateNow = new Date()
-	const yearNow = dateNow.getFullYear()
-	const monthNow = dateNow.getMonth()
-	const yearStart = years
-	// Set btc amount by price that month and year
-	let btc = 0
-	let btcYearStart, btcMonthStart
-	let startBtcCount = false
-	let btcStartPrice = 0
-	let btcIndex = 1
-	let btcAmount = 1
-	if (
-		btcPriceArray[1].month === monthStart &&
-		btcPriceArray[1].year === yearStart
-	) {
-		btcStartPrice = btcPriceArray[1].price
-		btcAmount = amount / btcStartPrice
-		btc = amount
-		btcIndex = 1
-		startBtcCount = true
-	} else {
-		const foundPrice = searchBtcPrice(
-			btcPriceArray,
-			yearStart,
-			monthStart,
-			amount
-		)
-		btcMonthStart = foundPrice.btcMonthStart
-		btcYearStart = foundPrice.btcYearStart
-		btcAmount = foundPrice.btcAmount
-		btcIndex = foundPrice.btcIndex
-	}
+	try {
+		if (years === 0 || months === 0 || amount === 0) return []
+		const btcPriceArray = await getBtcPriceArray(years, months)
+		const dataObject = {
+			tdp: [],
+			btc: []
+		}
+		let monthStart = months - 1
+		let cdiCount = amount
+		const dateNow = new Date()
+		const yearNow = dateNow.getFullYear()
+		const monthNow = dateNow.getMonth()
+		const yearStart = years
+		// Set btc amount by price that month and year
+		let btc = 0
+		let btcYearStart, btcMonthStart
+		let startBtcCount = false
+		let btcStartPrice = 0
+		let btcIndex = 1
+		let btcAmount = 1
+		if (
+			btcPriceArray[1].month === monthStart &&
+			btcPriceArray[1].year === yearStart
+		) {
+			btcStartPrice = btcPriceArray[1].price
+			btcAmount = amount / btcStartPrice
+			btc = amount
+			btcIndex = 1
+			startBtcCount = true
+		} else {
+			const foundPrice = searchBtcPrice(
+				btcPriceArray,
+				yearStart,
+				monthStart,
+				amount
+			)
+			btcMonthStart = foundPrice.btcMonthStart
+			btcYearStart = foundPrice.btcYearStart
+			btcAmount = foundPrice.btcAmount
+			btcIndex = foundPrice.btcIndex
+		}
 
-	for (let yearCount = yearStart; yearCount <= yearNow; yearCount++) {
-		for (let monthCount = monthStart; monthCount <= 11; monthCount++) {
-			if (yearCount === yearNow && monthCount > monthNow) break
-			if (btcYearStart === yearCount && btcMonthStart === monthCount) {
-				startBtcCount = true
+		for (let yearCount = yearStart; yearCount <= yearNow; yearCount++) {
+			for (let monthCount = monthStart; monthCount <= 11; monthCount++) {
+				if (yearCount === yearNow && monthCount > monthNow) break
+				if (
+					btcYearStart === yearCount &&
+					btcMonthStart === monthCount
+				) {
+					startBtcCount = true
+				}
+				if (startBtcCount) {
+					btc = btcAmount * btcPriceArray[btcIndex].price
+					btcIndex++
+				}
+				const date = new Date(yearCount, monthCount + 1, 0)
+				// const dateObject = new Date(yearCount, monthCount + 1, 0)
+				// const date = `${dateObject.getMonth() +
+				dataObject.btc.push({
+					x: date,
+					y: btc.toFixed(2)
+				})
+				dataObject.tdp.push({
+					x: date,
+					y: cdiCount.toFixed(2)
+				})
+				cdiCount += cdiCount * tdpYieldMonth
 			}
-			if (startBtcCount) {
-				btc = btcAmount * btcPriceArray[btcIndex].price
-				btcIndex++
-			}
-			const date = new Date(yearCount, monthCount + 1, 0)
-			dataObject.btc.push({
-				x: date,
-				y: btc.toFixed(2)
-			})
-			dataObject.tdp.push({
-				x: date,
-				y: cdiCount.toFixed(2)
-			})
-			cdiCount += cdiCount * tdpYieldMonth
+			monthStart = 0
 		}
-		monthStart = 0
+		const dataArray = [
+			{
+				id: "Tesouro Direto Pré-Fixado",
+				data: dataObject.tdp
+			},
+			{
+				id: "Bitcoin",
+				data: dataObject.btc
+			}
+		]
+		return dataArray
+	} catch (error) {
+		throw error
 	}
-	const dataArray = [
-		{
-			id: "Tesouro Direto Pré-Fixado",
-			data: dataObject.tdp
-		},
-		{
-			id: "Bitcoin",
-			data: dataObject.btc
-		}
-	]
-	return dataArray
 }
 
 export default yieldCalc

@@ -2,54 +2,81 @@ import React from "react"
 import { ResponsiveLine } from "@nivo/line"
 import colors from "../colors"
 
-const renderDate = point => {
-	if (point.serieId === "Bitcoin") {
+const widthOfChart = {
+	greater: {
+		18: "every 3 months",
+		40: "every 6 months",
+		85: "every 1 year",
+		170: "every 2 years"
+	},
+	less: {
+		5: "every 2 months",
+		9: "every 3 months",
+		14: "every 6 months",
+		27: "every 1 year",
+		51: "every 2 years",
+		100: "every 3 years",
+		159: "every 5 years"
+	}
+}
+
+export default function InvestmentChart(props) {
+	const calcChartInterval = (width = 0, length) => {
+		let timeInterval = "every month"
+		if (width > 650) {
+			Object.keys(widthOfChart.greater).forEach(key => {
+				if (length > key) timeInterval = widthOfChart.greater[key]
+			})
+		}
+		if (width <= 650) {
+			Object.keys(widthOfChart.less).forEach(key => {
+				if (length > key) timeInterval = widthOfChart.greater[key]
+			})
+		}
+		return timeInterval
+	}
+
+	const renderDate = point => {
+		if (point.serieId === "Bitcoin") {
+			return (
+				<div style={{ color: "black" }}>
+					{point.data.xFormatted} <br />
+				</div>
+			)
+		}
+	}
+
+	const renderCustomTooltip = ({ slice }) => {
 		return (
-			<div style={{ color: "black" }}>
-				{point.data.xFormatted} <br />
+			<div style={toolTipStyle}>
+				{slice.points.map(point => {
+					return (
+						<div
+							key={point.id}
+							style={{
+								color: point.serieColor,
+								padding: "3px 0"
+							}}
+						>
+							{renderDate(point)}
+							<strong>{point.serieId}</strong>:
+							{` R$${point.data.yFormatted}`}
+						</div>
+					)
+				})}
 			</div>
 		)
 	}
-}
 
-const renderCustomTooltip = ({ slice }) => {
-	return (
-		<div
-			style={{
-				background: "white",
-				padding: "9px 12px",
-				border: "1px solid #ccc"
-			}}
-		>
-			{slice.points.map(point => {
-				return (
-					<div
-						key={point.id}
-						style={{
-							color: point.serieColor,
-							padding: "3px 0"
-						}}
-					>
-						{renderDate(point)}
-						<strong>{point.serieId}</strong>:
-						{` R$${point.data.yFormatted}`}
-					</div>
-				)
-			})}
-		</div>
-	)
-}
-
-export default function investmentChart(props) {
 	const { data } = props
-	let timeInterval = "every month"
+	const { width } = props
+
+	let timeInterval
 	if (data[0]) {
 		const { length } = data[0].data
-		if (length > 16) timeInterval = "every 3 months"
-		if (length > 40) timeInterval = "every 6 months"
-		if (length > 85) timeInterval = "every 1 year"
-		if (length > 170) timeInterval = "every 2 years"
+		timeInterval = calcChartInterval(width, length)
 	}
+
 	return (
 		<>
 			<h2 style={{ marginTop: "60px", marginBottom: "30px" }}>
@@ -77,6 +104,7 @@ export default function investmentChart(props) {
 					axisBottom={{
 						format: "%m/%y",
 						tickValues: timeInterval,
+						max: "auto",
 						legend: "Mês/Ano",
 						legendOffset: 36,
 						legendPosition: "start"
@@ -120,4 +148,10 @@ const chartStyle = {
 	color: "black",
 	backgroundColor: "white",
 	borderRadius: "10px"
+}
+
+const toolTipStyle = {
+	background: "white",
+	padding: "9px 12px",
+	border: "1px solid #ccc"
 }
