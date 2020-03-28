@@ -90,8 +90,6 @@ const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 					btcIndex++
 				}
 				const date = new Date(yearCount, monthCount + 1, 0)
-				// const dateObject = new Date(yearCount, monthCount + 1, 0)
-				// const date = `${dateObject.getMonth() +
 				dataObject.btc.push({
 					x: date,
 					y: btc.toFixed(2)

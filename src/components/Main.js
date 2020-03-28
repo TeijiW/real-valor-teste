@@ -102,8 +102,6 @@ export default function Main() {
 			const lastValue = chartData[1].data[length - 1]
 			lastValues.btc = lastValue.y
 		}
-		// const dateNow = new Date()
-		// lastValues.date = `${dateNow.getMonth()}/${dateNow.getFullYear()}`
 
 		return lastValues
 	}
