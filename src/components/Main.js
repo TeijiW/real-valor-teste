@@ -4,6 +4,8 @@ import InvestmentForm from "./InvestmentForm"
 import InvestmentChart from "./InvestmentChart"
 import Footer from "./Footer"
 import ErrorAlert from "./ErrorAlert"
+import WarningAlert from "./WarningAlert"
+import InvestmentInfo from "./InvestmentInfo"
 import yieldCalc from "../services/yieldCalc"
 import colors from "../colors"
 import logo from "../images/transparente_70h_hq.png.webp"
@@ -16,7 +18,8 @@ export default function Main() {
 	})
 	const [chartData, setChartData] = useState([])
 	const [errors, setErrors] = useState([])
-	const [showchart, setShowChart] = useState(false)
+	const [warnings, setWarnings] = useState([])
+	const [showChart, setShowChart] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [width, setWidth] = useState(window.innerWidth)
 
@@ -35,6 +38,15 @@ export default function Main() {
 					setLoading(true)
 				}
 				const result = await yieldCalc(years, months, amount)
+				const firstBtcValue = result[1]
+					? result[1].data[0].y
+					: undefined
+
+				if (firstBtcValue === "0.00") {
+					const warningMessage =
+						"Caso a data inicial do investimento seja anterior ao surgimento do Bitcoin, o gráfico mostrará o valor '0' até o primeiro valor do qual se tem registro do Bitcoin, é a partir desta data que o investimento em Bitcoin passará a ser calculada"
+					setWarnings([warningMessage])
+				}
 				setChartData(result)
 			}
 			try {
@@ -75,6 +87,27 @@ export default function Main() {
 		)
 	}
 
+	const getLastValues = () => {
+		const lastValues = {
+			tdp: 0,
+			btc: 0
+		}
+		if (chartData[0]) {
+			const length = chartData[0].data.length
+			const lastValue = chartData[0].data[length - 1]
+			lastValues.tdp = lastValue.y
+		}
+		if (chartData[1]) {
+			const length = chartData[1].data.length
+			const lastValue = chartData[1].data[length - 1]
+			lastValues.btc = lastValue.y
+		}
+		// const dateNow = new Date()
+		// lastValues.date = `${dateNow.getMonth()}/${dateNow.getFullYear()}`
+
+		return lastValues
+	}
+
 	return (
 		<Container fluid="md">
 			<Image
@@ -90,8 +123,16 @@ export default function Main() {
 				investment={investment}
 				setInvestment={setInvestment}
 			/>
+
 			{loading && renderLoading()}
-			{showchart && <InvestmentChart width={width} data={chartData} />}
+			{showChart && <WarningAlert warnings={warnings} />}
+			{showChart && <InvestmentChart width={width} data={chartData} />}
+			{showChart && (
+				<InvestmentInfo
+					investment={investment}
+					lastValues={getLastValues()}
+				/>
+			)}
 			<Footer />
 		</Container>
 	)

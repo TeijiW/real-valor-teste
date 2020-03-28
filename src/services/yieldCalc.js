@@ -106,7 +106,7 @@ const yieldCalc = async (years = 0, months = 0, amount = 0) => {
 		}
 		const dataArray = [
 			{
-				id: "Tesouro Direto Pré-Fixado",
+				id: "Tesouro Direto Prefixado",
 				data: dataObject.tdp
 			},
 			{

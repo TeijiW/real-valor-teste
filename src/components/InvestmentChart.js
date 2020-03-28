@@ -21,6 +21,9 @@ const widthOfChart = {
 }
 
 export default function InvestmentChart(props) {
+	const { data } = props
+	const { width } = props
+
 	const calcChartInterval = (width = 0, length) => {
 		let timeInterval = "every month"
 		if (width > 650) {
@@ -68,13 +71,13 @@ export default function InvestmentChart(props) {
 		)
 	}
 
-	const { data } = props
-	const { width } = props
-
-	let timeInterval
-	if (data[0]) {
-		const { length } = data[0].data
-		timeInterval = calcChartInterval(width, length)
+	const getTimeInterval = () => {
+		let timeInterval
+		if (data[0]) {
+			const { length } = data[0].data
+			timeInterval = calcChartInterval(width, length)
+		}
+		return timeInterval
 	}
 
 	return (
@@ -103,7 +106,7 @@ export default function InvestmentChart(props) {
 					}}
 					axisBottom={{
 						format: "%m/%y",
-						tickValues: timeInterval,
+						tickValues: getTimeInterval(),
 						max: "auto",
 						legend: "Mês/Ano",
 						legendOffset: 36,
