@@ -26,6 +26,6 @@ const warningStyle = {
 	fontSize: "14px",
 	alignSelf: "center",
 	display: "inline-block",
-	width: "50%",
+	width: "70%",
 	marginTop: "25px"
 }

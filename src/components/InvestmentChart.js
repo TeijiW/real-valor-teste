@@ -28,12 +28,15 @@ export default function InvestmentChart(props) {
 		let timeInterval = "every month"
 		if (width > 650) {
 			Object.keys(widthOfChart.greater).forEach(key => {
-				if (length > key) timeInterval = widthOfChart.greater[key]
+				if (length > parseInt(key))
+					timeInterval = widthOfChart.greater[key]
 			})
 		}
 		if (width <= 650) {
 			Object.keys(widthOfChart.less).forEach(key => {
-				if (length > key) timeInterval = widthOfChart.greater[key]
+				if (length > parseInt(key)) {
+					timeInterval = widthOfChart.less[key]
+				}
 			})
 		}
 		return timeInterval

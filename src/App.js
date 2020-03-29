@@ -18,5 +18,6 @@ export default function App() {
 const mainStyle = {
 	backgroundColor: colors.primaryColor,
 	color: colors.fontColor,
-	padding: "40px"
+	padding: "40px",
+	overflow: "hidden"
 }
