@@ -1,15 +1,29 @@
 # Real Valor Teste
 
-## Aplicação criada por Teiji Watanabe - 03/2020
+🇧🇷
+## Aplicação Web para calcular o investimento em Bitcoin e Tesouro pré-fixado utilizando React Hooks
 
-## Passos para executar a aplicação (em modo de desenvolvimento)
+## Passos para executar a aplicação
 
-##### `git clone https://github.com/TeijiW/real-valor-teste`
+- `git clone https://github.com/TeijiW/real-valor-teste`
+- `cd ./real-valor-teste`
+- `yarn install` (ou `npm install`)
+- `yarn start` (ou `npm start`)
+- Abra a página http://localhost:3000 para utilizar a aplicação
 
-##### `cd ./real-valor-teste`
+## Detalhes
+- A aplicação necessita de acesso a internet para se comunicar com a API de Bitcoin
+------
+🇺🇸
+## Web Application to calculate the bitcoind and prefixed treasure investment using React Hooks
 
-##### `yarn install` (ou `npm install`)
+## Steps to run the app
 
-##### `yarn start` (ou `npm start`)
+- `git clone https://github.com/TeijiW/real-valor-teste`
+- `cd ./real-valor-teste`
+- `yarn install` (or `npm install`)
+- `yarn start` (or `npm start`)
+- Open http://localhost:3000 in your browser to use
 
-##### Abra a página http://localhost:3000 para utilizar a aplicação
+## Details
+- The app needs a internet access to comunicate with the Bitcoin API
