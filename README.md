@@ -1,9 +1,10 @@
 # Real Valor Teste
 
-🇧🇷
-## Aplicação Web para calcular o investimento em Bitcoin e Tesouro pré-fixado utilizando React Hooks
+## 🇧🇷  
+ 
+Aplicação Web para calcular o investimento em Bitcoin e Tesouro pré-fixado utilizando React Hooks
 
-## Passos para executar a aplicação
+## Passos para uso
 
 - `git clone https://github.com/TeijiW/real-valor-teste`
 - `cd ./real-valor-teste`
@@ -14,10 +15,11 @@
 ## Detalhes
 - A aplicação necessita de acesso a internet para se comunicar com a API de Bitcoin
 ------
-🇺🇸
-## Web Application to calculate the bitcoind and prefixed treasure investment using React Hooks
+## 🇺🇸
 
-## Steps to run the app
+Web Application to calculate the bitcoind and prefixed treasure investment using React Hooks
+
+## Steps to usage
 
 - `git clone https://github.com/TeijiW/real-valor-teste`
 - `cd ./real-valor-teste`
